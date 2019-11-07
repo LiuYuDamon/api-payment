@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-payment
+  namespace: sba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-payment
+  template:
+    metadata:
+      labels:
+        app: api-payment
+    spec:
+      containers:
+        - name: api-payment
+          image: registry.cn-beijing.aliyuncs.com/damondocker/api-payment:{version}
+          ports:
+            - name: http-port
+              containerPort: 8766
+          env:
+            - name: spring_profiles_active
+              value: k8s
+      imagePullSecrets:
+        - name: sba
